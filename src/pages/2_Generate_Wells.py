@@ -22,7 +22,6 @@ The wells are placed randomly around the center of each field, with the number d
 """)
 
 # User inputs for essential parameters
-crs_epsg = st.number_input("Select EPSG Code for Projected CRS", min_value=1, max_value=99999, value=32633, step=1)
 offset_range = st.slider("Offset Range from Centroid (meters)", min_value=0, max_value=100, value=50, step=5)
 
 # Parameters for determining the number of wells based on field area
@@ -44,7 +43,7 @@ if st.button("Generate Wells"):
     try:
         # Load the cleaned shapefile
         fields = gpd.read_file(shapefile_path)
-        fields = fields.to_crs(epsg=crs_epsg)
+        fields = fields.to_crs(epsg=32633)  # Set CRS directly without user input
 
         # Define function to place wells
         def place_wells(geometry, num_wells):
@@ -85,7 +84,7 @@ if st.button("Generate Wells"):
         # Load real well locations and plot the results
         real_wells = pd.read_csv(real_wells_path, delim_whitespace=True, header=None, names=['X', 'Y'])
         real_wells_gdf = gpd.GeoDataFrame(real_wells, geometry=gpd.points_from_xy(real_wells.X, real_wells.Y), crs='EPSG:23700')
-        real_wells_gdf = real_wells_gdf.to_crs(epsg=crs_epsg)
+        real_wells_gdf = real_wells_gdf.to_crs(epsg=32633)  # Set CRS directly
 
         # Plotting the generated and real wells
         fig, ax = plt.subplots(figsize=(10, 10))
