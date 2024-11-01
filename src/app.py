@@ -1,8 +1,8 @@
 import streamlit as st
-from src.1_Clean_SHP import shape_cleaning_page  # Import the shape cleaning function
-from src.2_Generate_Wells import generate_wells_page  # Import the generate wells function
-from src.3_Reduce_Wells import reduce_wells_page  # Import the reduce wells function
-from src.4_Final_Map import final_map_page  # Import the final map function
+from src.clean_shp import shape_cleaning_page  # Import the shape cleaning function
+from src.generate_wells import generate_wells_page  # Import the generate wells function
+from src.reduce_wells import reduce_wells_page  # Import the reduce wells function
+from src.final_map import final_map_page  # Import the final map function
 
 # Set page configuration
 st.set_page_config(page_title="Nyerseg Dataroom", layout="wide")
