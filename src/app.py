@@ -3,7 +3,8 @@ import streamlit as st
 st.set_page_config(page_title="Nyerseg Dataroom", layout="wide")
 
 # Title and Welcome Message
-st.title("Nyerseg Dataroom")
+st.title("Home")
+
 st.markdown("""
 **Welcome to the Nyerseg Dataroom by Hawkar Ali Abdulhaq, Szeged University**  
 **Contact**: [hawkar.ali.abdulhaq@szte.hu](mailto:hawkar.ali.abdulhaq@szte.hu)
