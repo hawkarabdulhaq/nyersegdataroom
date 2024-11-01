@@ -1,73 +1,67 @@
+# src/1_Clean_SHP.py
 import streamlit as st
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import os
 
-# Set page configuration
-st.set_page_config(page_title="Nyerseg Dataroom", layout="wide")
+def shape_cleaning_page():
+    st.set_page_config(page_title="Shape Cleaning")
+    st.title("Clean and Merge Shapefiles")
 
-# Title and Welcome Message
-st.title("Nyerseg Dataroom")
-st.markdown("""
-**Welcome to the Nyerseg Dataroom by Hawkar Ali Abdulhaq, Szeged University**  
-**Contact**: [hawkar.ali.abdulhaq@szte.hu](mailto:hawkar.ali.abdulhaq@szte.hu)
-""")
+    # Define paths
+    shapefile_path = 'input/irrigated/Irrigated fields.shp'
+    output_directory = 'input/irrigated_cleaned'
+    output_shapefile_path = os.path.join(output_directory, 'Irrigated_fields_cleaned.shp')
 
-# Initialize session state for page selection if it doesn't exist
-if "page" not in st.session_state:
-    st.session_state.page = "Home"
-
-# Sidebar Tabs
-def set_page(page):
-    st.session_state.page = page
-
-with st.sidebar:
-    st.title("Navigation")
-    st.button("Home", on_click=set_page, args=("Home",))
-    st.button("Shape Cleaning", on_click=set_page, args=("Shape Cleaning",))
-    st.button("Generate Wells", on_click=set_page, args=("Generate Wells",))
-    st.button("Clean Wells", on_click=set_page, args=("Clean Wells",))
-    st.button("Download", on_click=set_page, args=("Download",))
-
-# Display content based on the selected page in session state
-if st.session_state.page == "Home":
-    st.markdown("### How This App Works")
-    st.write("""
-    This app follows a sequential workflow to prepare and visualize well data. Each page offers a specific function, allowing you to process and interact with the data in a logical order. Below is a guide to each page's purpose:
-
-    1. **Shape Cleaning**:  
-       - This page loads the initial field shapefile and consolidates fields that are close to each other.
-       - Adjust the buffer distance, run the cleaning, and see "before and after" comparisons to ensure accuracy.
-
-    2. **Generate Wells**:  
-       - Based on field size, this page generates virtual wells within each field, placing wells randomly around the centroid of each field.
-       - Customize parameters, such as the offset range and number of wells per field size category.
-
-    3. **Clean Wells**:  
-       - This page filters generated wells to remove any that are too close to each other or real wells, ensuring optimal spacing.
-       - Adjust minimum distance criteria and visualize the results on a filtered map.
-
-    4. **Download**:  
-       - View the final interactive map showing only real and filtered generated wells.
-       - Download the map as an HTML file for further analysis or external sharing.
-
-    By following these steps in sequence, you can prepare a clean, well-organized dataset that is ready for visualization and download.
+    # Description of the script
+    st.markdown("""
+    **Objective**: This page runs the `cleanshp.py` script, which cleans and merges shapefile data by buffering and merging close polygons. 
+    The process is useful for consolidating fields that are near each other, simplifying visualization and analysis.
     """)
-    st.write("**Enjoy using the Nyerseg Dataroom for your well data management!**")
 
-elif st.session_state.page == "Shape Cleaning":
-    st.markdown("### Shape Cleaning")
-    st.write("This is the Shape Cleaning page content.")
-    # Insert the content of 1_Shape_Cleaning.py here
+    # Buffer distance input
+    buffer_distance = st.slider("Select Buffer Distance (meters)", min_value=0, max_value=100, value=50, step=5)
+    st.write(f"Buffer distance set to: {buffer_distance} meters")
 
-elif st.session_state.page == "Generate Wells":
-    st.markdown("### Generate Wells")
-    st.write("This is the Generate Wells page content.")
-    # Insert the content of 2_Generate_Wells.py here
+    # Run the clean and merge process
+    if st.button("Run CleanSHP"):
+        try:
+            # Load the shapefile
+            fields_gdf = gpd.read_file(shapefile_path)
 
-elif st.session_state.page == "Clean Wells":
-    st.markdown("### Clean Wells")
-    st.write("This is the Clean Wells page content.")
-    # Insert the content of 3_Clean_Wells.py here
+            # Set the CRS to a projected CRS for accurate distance calculations
+            fields_gdf = fields_gdf.to_crs(epsg=32633)
 
-elif st.session_state.page == "Download":
-    st.markdown("### Download")
-    st.write("This is the Download page content.")
-    # Insert the content of 4_Download.py here
+            # Buffer each field by the user-defined distance, merge overlapping buffers, then remove the buffer
+            buffered_fields = fields_gdf.buffer(buffer_distance)
+            merged_fields = buffered_fields.unary_union
+            merged_gdf = gpd.GeoDataFrame(geometry=[merged_fields]).explode(index_parts=False).reset_index(drop=True)
+
+            # Set CRS to match the original fields CRS
+            merged_gdf.crs = fields_gdf.crs
+
+            # Save the merged fields as a new shapefile
+            os.makedirs(output_directory, exist_ok=True)
+            merged_gdf.to_file(output_shapefile_path)
+            st.success(f"Merged shapefile saved to {output_shapefile_path}")
+
+            # Plotting the before and after side by side
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 10))
+            
+            # Before plot
+            fields_gdf.plot(ax=ax1, color='lightgrey', edgecolor='black')
+            ax1.set_title("Original Fields")
+            ax1.set_xlabel("Longitude")
+            ax1.set_ylabel("Latitude")
+            
+            # After plot
+            merged_gdf.plot(ax=ax2, color='lightblue', edgecolor='black')
+            ax2.set_title(f"Merged Fields with {buffer_distance} m Buffer")
+            ax2.set_xlabel("Longitude")
+            ax2.set_ylabel("Latitude")
+            
+            # Show the plots in Streamlit
+            st.pyplot(fig)
+        
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
