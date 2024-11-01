@@ -10,10 +10,11 @@ st.markdown("""
 **Contact**: [hawkar.ali.abdulhaq@szte.hu](mailto:hawkar.ali.abdulhaq@szte.hu)
 """)
 
-# Tabs as Radio Buttons
-page = st.radio("Select a Page", ["Home", "Shape Cleaning", "Generate Wells", "Clean Wells", "Download"], horizontal=True)
+# Sidebar Navigation with Selectable Pages
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Go to", ["Home", "Shape Cleaning", "Generate Wells", "Clean Wells", "Download"])
 
-# Conditional Content for Each Tab
+# Conditional Content for Each Page
 if page == "Home":
     st.markdown("### How This App Works")
     st.write("""
@@ -41,16 +42,20 @@ if page == "Home":
 
 elif page == "Shape Cleaning":
     st.markdown("### Shape Cleaning")
+    st.write("This is the Shape Cleaning page content.")
     # Insert the content of 1_Shape_Cleaning.py here
 
 elif page == "Generate Wells":
     st.markdown("### Generate Wells")
+    st.write("This is the Generate Wells page content.")
     # Insert the content of 2_Generate_Wells.py here
 
 elif page == "Clean Wells":
     st.markdown("### Clean Wells")
+    st.write("This is the Clean Wells page content.")
     # Insert the content of 3_Clean_Wells.py here
 
 elif page == "Download":
     st.markdown("### Download")
+    st.write("This is the Download page content.")
     # Insert the content of 4_Download.py here
