@@ -1,21 +1,15 @@
-# src/2_Generate_Wells.py
-import streamlit as st
-import geopandas as gpd
-import matplotlib.pyplot as plt
-from shapely.geometry import Point
-import numpy as np
-import pandas as pd
-import os
+# src/generate_wells.py
 
 def generate_wells_page():
-    st.title("Generate Wells")
+    import streamlit as st
+    import geopandas as gpd
+    import matplotlib.pyplot as plt
+    from shapely.geometry import Point
+    import numpy as np
+    import pandas as pd
+    import os
 
-    # Define input and output paths
-    shapefile_path = 'input/irrigated_cleaned/Irrigated_fields_cleaned.shp'
-    real_wells_path = 'input/real_wells/realwellss.txt'
-    output_directory = 'output'
-    output_wells_path = os.path.join(output_directory, 'generated_wells_eov.txt')
-    output_map_path = os.path.join(output_directory, 'wells_map.png')
+    st.title("Generate Wells")
 
     # Description
     st.markdown("""
@@ -41,8 +35,15 @@ def generate_wells_page():
     area_to_wells["Very large fields (> 50,000 m²)"] = st.number_input("Number of wells for Very large fields (> 50,000 m²)", min_value=0, max_value=10, value=3)
 
     # Run the well generation script when button is clicked
-    if st.button("Generate Wells"):
+    if st.button("Generate Wells", key="generate_wells_button"):  # Added unique key
         try:
+            # Define paths
+            shapefile_path = 'input/irrigated_cleaned/Irrigated_fields_cleaned.shp'
+            real_wells_path = 'input/real_wells/realwellss.txt'
+            output_directory = 'output'
+            output_wells_path = os.path.join(output_directory, 'generated_wells_eov.txt')
+            output_map_path = os.path.join(output_directory, 'wells_map.png')
+
             # Load the cleaned shapefile
             fields = gpd.read_file(shapefile_path)
             fields = fields.to_crs(epsg=32633)  # Set CRS directly without user input
