@@ -16,6 +16,7 @@ st.title("Final Map of Real and Generated Wells")
 st.markdown("""
 This page displays the final positions of generated wells, filtered to ensure appropriate distances from real wells, 
 alongside the real well locations on an interactive map. The map can also be downloaded as an HTML file.
+Additionally, you can download the generated EOV X and Y coordinates for the filtered generated wells.
 """)
 
 # Load the filtered generated wells and real wells
@@ -67,6 +68,10 @@ try:
     # Download link for the HTML map
     with open(output_html_map_path, "rb") as file:
         st.download_button("Download Map as HTML", data=file, file_name="final_wells_map.html", mime="text/html")
+
+    # Download link for the generated wells EOV file
+    with open(filtered_wells_path, "rb") as file:
+        st.download_button("Download Generated Wells EOV Coordinates", data=file, file_name="filtered_generated_wells_eov.txt", mime="text/plain")
 
 except Exception as e:
     st.error(f"An error occurred: {e}")
