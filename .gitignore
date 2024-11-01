@@ -1,0 +1,12 @@
+# Ignore output files and other generated data
+output/
+*.txt
+*.png
+
+# Ignore environment or temporary files
+__pycache__/
+*.py[cod]
+*.DS_Store
+
+# Ignore Streamlit cache files if using Streamlit
+.streamlit/
