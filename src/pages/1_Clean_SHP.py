@@ -3,6 +3,8 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import os
 
+# Set the page title
+st.title("Shape Cleaning")
 # Define paths
 shapefile_path = 'input/irrigated/Irrigated fields.shp'
 output_directory = 'input/irrigated_cleaned'
