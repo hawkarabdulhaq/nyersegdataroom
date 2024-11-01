@@ -2,8 +2,8 @@ import streamlit as st
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import os
+st.set_page_config(page_title="Shape Cleaning")
 
-# Set the page title
 st.title("Shape Cleaning")
 # Define paths
 shapefile_path = 'input/irrigated/Irrigated fields.shp'
