@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 import os
 
 def shape_cleaning_page():
-    st.set_page_config(page_title="Shape Cleaning")
-    st.title("Clean and Merge Shapefiles")
+    st.title("Shape Cleaning - Clean and Merge Shapefiles")
 
     # Define paths
     shapefile_path = 'input/irrigated/Irrigated fields.shp'
