@@ -34,25 +34,28 @@ try:
     m = folium.Map(location=[generated_wells_gdf.geometry.y.mean(), generated_wells_gdf.geometry.x.mean()], zoom_start=12)
     
     # Add real wells to the map with red markers
-    real_wells_cluster = MarkerCluster(name="Real Wells").add_to(m)
     for idx, row in real_wells_gdf.iterrows():
-        folium.Marker(
+        folium.CircleMarker(
             location=[row.geometry.y, row.geometry.x],
-            icon=folium.Icon(color="red", icon="glyphicon-tint"),
+            color='red',
+            radius=3,
+            fill=True,
+            fill_color='red',
+            fill_opacity=0.6,
             popup=f"Real Well {idx + 1}"
-        ).add_to(real_wells_cluster)
+        ).add_to(m)
     
     # Add generated wells to the map with blue markers
-    generated_wells_cluster = MarkerCluster(name="Generated Wells").add_to(m)
     for idx, row in generated_wells_gdf.iterrows():
-        folium.Marker(
+        folium.CircleMarker(
             location=[row.geometry.y, row.geometry.x],
-            icon=folium.Icon(color="blue", icon="glyphicon-tint"),
+            color='blue',
+            radius=3,
+            fill=True,
+            fill_color='blue',
+            fill_opacity=0.6,
             popup=f"Generated Well {idx + 1}"
-        ).add_to(generated_wells_cluster)
-
-    # Add layer control
-    folium.LayerControl().add_to(m)
+        ).add_to(m)
 
     # Save map as HTML file
     m.save(output_html_map_path)
