@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import streamlit as st
 from src.clean_shp import shape_cleaning_page  # Import the shape cleaning function
 from src.generate_wells import generate_wells_page  # Import the generate wells function
