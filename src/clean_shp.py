@@ -24,43 +24,44 @@ def shape_cleaning_page():
 
     # Run the clean and merge process
     if st.button("Run CleanSHP"):
-        try:
-            # Load the shapefile
-            fields_gdf = gpd.read_file(shapefile_path)
+        with st.spinner("Processing... Please wait."):
+            try:
+                # Load the shapefile
+                fields_gdf = gpd.read_file(shapefile_path)
 
-            # Set the CRS to a projected CRS for accurate distance calculations
-            fields_gdf = fields_gdf.to_crs(epsg=32633)
+                # Set the CRS to a projected CRS for accurate distance calculations
+                fields_gdf = fields_gdf.to_crs(epsg=32633)
 
-            # Buffer each field by the user-defined distance, merge overlapping buffers, then remove the buffer
-            buffered_fields = fields_gdf.buffer(buffer_distance)
-            merged_fields = buffered_fields.unary_union
-            merged_gdf = gpd.GeoDataFrame(geometry=[merged_fields]).explode(index_parts=False).reset_index(drop=True)
+                # Buffer each field by the user-defined distance, merge overlapping buffers, then remove the buffer
+                buffered_fields = fields_gdf.buffer(buffer_distance)
+                merged_fields = buffered_fields.unary_union
+                merged_gdf = gpd.GeoDataFrame(geometry=[merged_fields]).explode(index_parts=False).reset_index(drop=True)
 
-            # Set CRS to match the original fields CRS
-            merged_gdf.crs = fields_gdf.crs
+                # Set CRS to match the original fields CRS
+                merged_gdf.crs = fields_gdf.crs
 
-            # Save the merged fields as a new shapefile
-            os.makedirs(output_directory, exist_ok=True)
-            merged_gdf.to_file(output_shapefile_path)
-            st.success(f"Merged shapefile saved to {output_shapefile_path}")
+                # Save the merged fields as a new shapefile
+                os.makedirs(output_directory, exist_ok=True)
+                merged_gdf.to_file(output_shapefile_path)
+                st.success(f"Merged shapefile saved to {output_shapefile_path}")
 
-            # Plotting the before and after side by side
-            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 10))
+                # Plotting the before and after side by side
+                fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 10))
+                
+                # Before plot
+                fields_gdf.plot(ax=ax1, color='lightgrey', edgecolor='black')
+                ax1.set_title("Original Fields")
+                ax1.set_xlabel("Longitude")
+                ax1.set_ylabel("Latitude")
+                
+                # After plot
+                merged_gdf.plot(ax=ax2, color='lightblue', edgecolor='black')
+                ax2.set_title(f"Merged Fields with {buffer_distance} m Buffer")
+                ax2.set_xlabel("Longitude")
+                ax2.set_ylabel("Latitude")
+                
+                # Show the plots in Streamlit
+                st.pyplot(fig)
             
-            # Before plot
-            fields_gdf.plot(ax=ax1, color='lightgrey', edgecolor='black')
-            ax1.set_title("Original Fields")
-            ax1.set_xlabel("Longitude")
-            ax1.set_ylabel("Latitude")
-            
-            # After plot
-            merged_gdf.plot(ax=ax2, color='lightblue', edgecolor='black')
-            ax2.set_title(f"Merged Fields with {buffer_distance} m Buffer")
-            ax2.set_xlabel("Longitude")
-            ax2.set_ylabel("Latitude")
-            
-            # Show the plots in Streamlit
-            st.pyplot(fig)
-        
-        except Exception as e:
-            st.error(f"An error occurred: {e}")
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
