@@ -10,12 +10,24 @@ st.markdown("""
 **Contact**: [hawkar.ali.abdulhaq@szte.hu](mailto:hawkar.ali.abdulhaq@szte.hu)
 """)
 
-# Sidebar Tabs
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Tabs", ["Home", "Shape Cleaning", "Generate Wells", "Clean Wells", "Download"])
+# Initialize session state for page selection if it doesn't exist
+if "page" not in st.session_state:
+    st.session_state.page = "Home"
 
-# Display Content Based on Selected Tab
-if page == "Home":
+# Sidebar Tabs
+def set_page(page):
+    st.session_state.page = page
+
+with st.sidebar:
+    st.title("Navigation")
+    st.button("Home", on_click=set_page, args=("Home",))
+    st.button("Shape Cleaning", on_click=set_page, args=("Shape Cleaning",))
+    st.button("Generate Wells", on_click=set_page, args=("Generate Wells",))
+    st.button("Clean Wells", on_click=set_page, args=("Clean Wells",))
+    st.button("Download", on_click=set_page, args=("Download",))
+
+# Display content based on the selected page in session state
+if st.session_state.page == "Home":
     st.markdown("### How This App Works")
     st.write("""
     This app follows a sequential workflow to prepare and visualize well data. Each page offers a specific function, allowing you to process and interact with the data in a logical order. Below is a guide to each page's purpose:
@@ -40,22 +52,22 @@ if page == "Home":
     """)
     st.write("**Enjoy using the Nyerseg Dataroom for your well data management!**")
 
-elif page == "Shape Cleaning":
+elif st.session_state.page == "Shape Cleaning":
     st.markdown("### Shape Cleaning")
     st.write("This is the Shape Cleaning page content.")
     # Insert the content of 1_Shape_Cleaning.py here
 
-elif page == "Generate Wells":
+elif st.session_state.page == "Generate Wells":
     st.markdown("### Generate Wells")
     st.write("This is the Generate Wells page content.")
     # Insert the content of 2_Generate_Wells.py here
 
-elif page == "Clean Wells":
+elif st.session_state.page == "Clean Wells":
     st.markdown("### Clean Wells")
     st.write("This is the Clean Wells page content.")
     # Insert the content of 3_Clean_Wells.py here
 
-elif page == "Download":
+elif st.session_state.page == "Download":
     st.markdown("### Download")
     st.write("This is the Download page content.")
     # Insert the content of 4_Download.py here
