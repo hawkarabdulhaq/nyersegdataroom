@@ -10,12 +10,22 @@ st.markdown("""
 **Contact**: [hawkar.ali.abdulhaq@szte.hu](mailto:hawkar.ali.abdulhaq@szte.hu)
 """)
 
-# Sidebar Navigation with Selectable Pages
+# Custom Sidebar with Clickable Links
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Home", "Shape Cleaning", "Generate Wells", "Clean Wells", "Download"])
 
-# Conditional Content for Each Page
-if page == "Home":
+# Sidebar links for tabs
+tab_names = ["Home", "Shape Cleaning", "Generate Wells", "Clean Wells", "Download"]
+tabs = {name: f"#{name.replace(' ', '_')}" for name in tab_names}
+
+# Sidebar clickable tabs using markdown and links
+for name, link in tabs.items():
+    st.sidebar.markdown(f"[{name}]({link})", unsafe_allow_html=True)
+
+# Determine which page to show
+tab = st.experimental_get_query_params().get("tab", ["Home"])[0]
+
+# Main content based on tab selection
+if tab == "Home":
     st.markdown("### How This App Works")
     st.write("""
     This app follows a sequential workflow to prepare and visualize well data. Each page offers a specific function, allowing you to process and interact with the data in a logical order. Below is a guide to each page's purpose:
@@ -40,22 +50,22 @@ if page == "Home":
     """)
     st.write("**Enjoy using the Nyerseg Dataroom for your well data management!**")
 
-elif page == "Shape Cleaning":
+elif tab == "Shape Cleaning":
     st.markdown("### Shape Cleaning")
     st.write("This is the Shape Cleaning page content.")
     # Insert the content of 1_Shape_Cleaning.py here
 
-elif page == "Generate Wells":
+elif tab == "Generate Wells":
     st.markdown("### Generate Wells")
     st.write("This is the Generate Wells page content.")
     # Insert the content of 2_Generate_Wells.py here
 
-elif page == "Clean Wells":
+elif tab == "Clean Wells":
     st.markdown("### Clean Wells")
     st.write("This is the Clean Wells page content.")
     # Insert the content of 3_Clean_Wells.py here
 
-elif page == "Download":
+elif tab == "Download":
     st.markdown("### Download")
     st.write("This is the Download page content.")
     # Insert the content of 4_Download.py here
