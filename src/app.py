@@ -1,6 +1,5 @@
 import streamlit as st
 
-# Set page configuration
 st.set_page_config(page_title="Nyerseg Dataroom", layout="wide")
 
 # Title and Welcome Message
@@ -11,14 +10,6 @@ st.markdown("""
 
 This app is designed to manage and visualize well data across various stages of processing and analysis. Follow the instructions below to learn how each part of the app works.
 """)
-
-# Sidebar Navigation with Custom Links
-st.sidebar.title("Navigate through the stages below:")
-st.sidebar.write("1. [Home](Home)")
-st.sidebar.write("2. [Shape Cleaning](Shape_Cleaning)")
-st.sidebar.write("3. [Generate Wells](Generate_Wells)")
-st.sidebar.write("4. [Clean Wells](Clean_Wells)")
-st.sidebar.write("5. [Download](Download)")
 
 # Instructions for Using the App
 st.markdown("### How This App Works")
