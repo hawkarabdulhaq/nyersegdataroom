@@ -41,20 +41,16 @@ if page == "Home":
 
 elif page == "Shape Cleaning":
     st.markdown("### Shape Cleaning")
-    # Add code here to load content from `1_Shape_Cleaning.py`
-    st.write("This is the Shape Cleaning page content.")
+    # Insert the content of 1_Shape_Cleaning.py here
 
 elif page == "Generate Wells":
     st.markdown("### Generate Wells")
-    # Add code here to load content from `2_Generate_Wells.py`
-    st.write("This is the Generate Wells page content.")
+    # Insert the content of 2_Generate_Wells.py here
 
 elif page == "Clean Wells":
     st.markdown("### Clean Wells")
-    # Add code here to load content from `3_Clean_Wells.py`
-    st.write("This is the Clean Wells page content.")
+    # Insert the content of 3_Clean_Wells.py here
 
 elif page == "Download":
     st.markdown("### Download")
-    # Add code here to load content from `4_Download.py`
-    st.write("This is the Download page content.")
+    # Insert the content of 4_Download.py here
