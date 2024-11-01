@@ -34,7 +34,7 @@ if not st.session_state.authenticated:
         if access_key_input == ACCESS_KEY:
             st.session_state.authenticated = True
             st.success("Access granted! You may now use the app.")
-            st.experimental_rerun()  # Refresh the app to display the main content
+            st.experimental_set_query_params(auth="true")  # This will refresh the page
         else:
             st.error("Invalid access key. Please try again.")
 
