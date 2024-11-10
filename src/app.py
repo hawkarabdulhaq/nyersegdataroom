@@ -7,16 +7,33 @@ from src.clean_shp import shape_cleaning_page  # Import the shape cleaning funct
 from src.generate_wells import generate_wells_page  # Import the generate wells function
 from src.reduce_wells import reduce_wells_page  # Import the reduce wells function
 from src.final_map import final_map_page  # Import the final map function
+from translation import translations  # Import translations
+
+# Helper function for translation
+def _(text_key):
+    return translations[st.session_state.language].get(text_key, text_key)
 
 # Set page configuration
-st.set_page_config(page_title="Nyerseg Dataroom", layout="wide")
+st.set_page_config(page_title=_("page_title"), layout="wide")
+
+# Initialize session state for language if it doesn't exist
+if "language" not in st.session_state:
+    st.session_state.language = 'en'  # Default to English
+
+# Language selection in the sidebar
+with st.sidebar:
+    st.selectbox(
+        "Language / Nyelv",
+        options=["English", "Magyar"],
+        index=0 if st.session_state.language == 'en' else 1,
+        on_change=lambda: st.session_state.update(
+            language='en' if st.session_state.get('language') == 'English' else 'hu'
+        )
+    )
 
 # Title and Welcome Message
-st.title("Nyerseg Dataroom")
-st.markdown("""
-**Welcome to the Nyerseg Dataroom by Hawkar Ali Abdulhaq, Szeged University**  
-**Contact**: [hawkar.ali.abdulhaq@szte.hu](mailto:hawkar.ali.abdulhaq@szte.hu)
-""")
+st.title(_("page_title"))
+st.markdown(_("welcome_message"))
 
 # Define the access key
 ACCESS_KEY = "Asd456"
@@ -27,16 +44,16 @@ if "authenticated" not in st.session_state:
 
 # Access key input and validation
 if not st.session_state.authenticated:
-    st.subheader("Please enter the access key to proceed:")
-    access_key_input = st.text_input("Access Key", type="password")
+    st.subheader(_("access_key_prompt"))
+    access_key_input = st.text_input(_("access_key_label"), type="password")
     
-    if st.button("Access"):
+    if st.button(_("access_button")):
         if access_key_input == ACCESS_KEY:
             st.session_state.authenticated = True
-            st.success("Access granted! You may now use the app.")
+            st.success(_("access_granted"))
             st.experimental_set_query_params(auth="true")  # This will refresh the page
         else:
-            st.error("Invalid access key. Please try again.")
+            st.error(_("invalid_key"))
 
 # Main app content
 if st.session_state.authenticated:
@@ -49,37 +66,17 @@ if st.session_state.authenticated:
         st.session_state.page = page
 
     with st.sidebar:
-        st.title("Navigation")
-        st.button("Home", on_click=set_page, args=("Home",))
-        st.button("Shape Cleaning", on_click=set_page, args=("Shape Cleaning",))
-        st.button("Generate Wells", on_click=set_page, args=("Generate Wells",))
-        st.button("Clean Wells", on_click=set_page, args=("Clean Wells",))
-        st.button("Download", on_click=set_page, args=("Download",))
+        st.title(_("navigation"))
+        st.button(_("home"), on_click=set_page, args=("Home",))
+        st.button(_("shape_cleaning"), on_click=set_page, args=("Shape Cleaning",))
+        st.button(_("generate_wells"), on_click=set_page, args=("Generate Wells",))
+        st.button(_("clean_wells"), on_click=set_page, args=("Clean Wells",))
+        st.button(_("download"), on_click=set_page, args=("Download",))
 
     # Display content based on the selected page in session state
     if st.session_state.page == "Home":
-        st.markdown("### How This App Works")
-        st.write("""
-        This app follows a sequential workflow to prepare and visualize well data. Each page offers a specific function, allowing you to process and interact with the data in a logical order. Below is a guide to each page's purpose:
-
-        1. **Shape Cleaning**:  
-           - This page loads the initial field shapefile and consolidates fields that are close to each other.
-           - Adjust the buffer distance, run the cleaning, and see "before and after" comparisons to ensure accuracy.
-
-        2. **Generate Wells**:  
-           - Based on field size, this page generates virtual wells within each field, placing wells randomly around the centroid of each field.
-           - Customize parameters, such as the offset range and number of wells per field size category.
-
-        3. **Clean Wells**:  
-           - This page filters generated wells to remove any that are too close to each other or real wells, ensuring optimal spacing.
-           - Adjust minimum distance criteria and visualize the results on a filtered map.
-
-        4. **Download**:  
-           - View the final interactive map showing only real and filtered generated wells.
-           - Download the map as an HTML file for external sharing or offline viewing.
-
-        By following these steps in sequence, you can prepare a clean, well-organized dataset that is ready for visualization and download.
-        """)
+        st.markdown(f"### {_('how_this_app_works')}")
+        st.write(_("app_instructions"))
 
     elif st.session_state.page == "Shape Cleaning":
         shape_cleaning_page()  # Call the shape cleaning function
