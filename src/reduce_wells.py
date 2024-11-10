@@ -9,7 +9,7 @@ from scipy.spatial import cKDTree
 from scipy.spatial.distance import pdist
 import numpy as np
 
-def reduce_wells_page():
+def reduce_wells_page(_):
     st.title("Reduce Generated Wells")
 
     # Define input and output paths
