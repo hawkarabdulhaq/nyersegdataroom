@@ -78,13 +78,13 @@ if st.session_state.authenticated:
         st.write(_("app_instructions"))
 
     elif st.session_state.page == "Shape Cleaning":
-        shape_cleaning_page()  # Call the shape cleaning function
+        shape_cleaning_page(_)
 
     elif st.session_state.page == "Generate Wells":
-        generate_wells_page()  # Call the generate wells function
+        generate_wells_page(_)
 
     elif st.session_state.page == "Clean Wells":
-        reduce_wells_page()  # Call the reduce wells function
+        reduce_wells_page(_)
 
     elif st.session_state.page == "Download":
-        final_map_page()  # Call the final map function
+        final_map_page(_)
