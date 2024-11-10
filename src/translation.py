@@ -40,59 +40,6 @@ translations = {
         By following these steps in sequence, you can prepare a clean, well-organized dataset that is ready for visualization and download.
         """,
 
-        # Shape Cleaning Page Texts
-        'shape_cleaning_title': "Shape Cleaning - Clean and Merge Shapefiles",
-        'shape_cleaning_description': """
-        **Objective**: This page runs the cleanshp.py script, which cleans and merges shapefile data by buffering and merging close polygons. 
-        The process is useful for consolidating fields that are near each other, simplifying visualization and analysis.
-        """,
-        'buffer_distance_label': "Select Buffer Distance (meters)",
-        'buffer_distance_set': "Buffer distance set to: {} meters",
-        'run_clean_button': "Run CleanSHP",
-        'processing_message': "Processing... Please wait.",
-        'success_message': "Merged shapefile saved to {}",
-        'error_message': "An error occurred: {}",
-        'original_fields': "Original Fields",
-        'merged_fields': "Merged Fields with {} m Buffer",
-        'longitude_label': "Longitude",
-        'latitude_label': "Latitude",
-
-        # Generate Wells Page Texts
-        'generate_wells_title': "Generate Wells",
-        'generate_wells_description': """
-        **Objective**: This script generates wells within each field based on field area and user-defined parameters. 
-        The wells are placed randomly around the center of each field, with the number determined by the field's size.
-        """,
-        'offset_range_label': "Offset Range from Centroid (meters)",
-        'field_area_section': "Set Number of Wells Based on Field Area",
-        'small_fields_label': "Number of wells for Small fields (< 5,000 m²)",
-        'medium_fields_label': "Number of wells for Medium fields (5,000 - 10,000 m²)",
-        'large_fields_label': "Number of wells for Large fields (10,000 - 50,000 m²)",
-        'very_large_fields_label': "Number of wells for Very large fields (> 50,000 m²)",
-        'generate_wells_button': "Generate Wells",
-        'generated_wells_saved': "Generated wells saved to {}",
-        'map_saved': "Map has been created and saved as {}",
-        'well_locations_title': "Well Locations within Fields",
-
-        # Reduce Wells Page Texts
-        'reduce_wells_title': "Reduce Generated Wells",
-        'reduce_wells_description': """
-        **Objective**: This page filters generated wells based on minimum distance criteria to prevent close clustering. 
-        It removes wells that are either too close to other generated wells or within a specified distance from real wells.
-        """,
-        'min_distance_generated_label': "Minimum Distance Between Generated Wells (meters)",
-        'min_distance_real_label': "Minimum Distance from Real Wells (meters)",
-        'run_well_reduction_button': "Run Well Reduction",
-        'filtered_wells_saved': "Filtered wells saved to {}",
-        'filtered_wells_map_saved': "Filtered wells map saved to {}",
-        'histogram_saved': "Filtered well distances histogram saved to {}",
-        'well_locations_with_filters': "Well Locations with Distance Filters Applied",
-        'easting_label': "Easting (meters)",
-        'northing_label': "Northing (meters)",
-        'histogram_title': "Histogram of Pairwise Well Distances (Filtered)",
-        'histogram_x_label': "Distance (meters)",
-        'histogram_y_label': "Frequency",
-
         # Final Map Page Texts
         'final_map_title': "Final Map of Real and Generated Wells",
         'final_map_description': """
@@ -105,6 +52,8 @@ translations = {
         'map_saved_message': "Interactive map saved as HTML at {}",
         'download_map_button': "Download Map as HTML",
         'download_generated_wells_button': "Download Generated Wells EOV Coordinates",
+        'error_message': "An error occurred: {}",
+
     },
     'hu': {
         # General App Texts
@@ -147,59 +96,6 @@ translations = {
         Ezeknek a lépéseknek a sorrendben történő követésével tiszta, jól szervezett adatállományt készíthet elő, amely készen áll a megjelenítésre és letöltésre.
         """,
 
-        # Shape Cleaning Page Texts
-        'shape_cleaning_title': "Alak tisztítása - Alakfájlok tisztítása és egyesítése",
-        'shape_cleaning_description': """
-        **Cél**: Ez az oldal a cleanshp.py szkriptet futtatja, amely tisztítja és egyesíti az alakfájl adatokat puffereléssel és közeli poligonok egyesítésével.
-        Ez a folyamat hasznos a közel álló mezők egyesítésében, egyszerűsítve a megjelenítést és az elemzést.
-        """,
-        'buffer_distance_label': "Válassza ki a puffer távolságot (méterben)",
-        'buffer_distance_set': "A puffer távolság beállítva: {} méter",
-        'run_clean_button': "CleanSHP futtatása",
-        'processing_message': "Feldolgozás folyamatban... Kérjük, várjon.",
-        'success_message': "Az egyesített alakfájl mentve a következő helyre: {}",
-        'error_message': "Hiba történt: {}",
-        'original_fields': "Eredeti mezők",
-        'merged_fields': "Egyesített mezők {} m pufferrel",
-        'longitude_label': "Hosszúság",
-        'latitude_label': "Szélesség",
-
-        # Generate Wells Page Texts
-        'generate_wells_title': "Kutak generálása",
-        'generate_wells_description': """
-        **Cél**: Ez a szkript kutakat generál minden mezőben, a mező mérete és a felhasználó által meghatározott paraméterek alapján. 
-        A kutakat véletlenszerűen helyezi el a mező központja körül, a mező mérete alapján meghatározott számban.
-        """,
-        'offset_range_label': "Eltolási tartomány a centrumból (méterben)",
-        'field_area_section': "Állítsa be a kutak számát a mező területe alapján",
-        'small_fields_label': "Kutak száma kis mezők esetén (< 5,000 m²)",
-        'medium_fields_label': "Kutak száma közepes mezők esetén (5,000 - 10,000 m²)",
-        'large_fields_label': "Kutak száma nagy mezők esetén (10,000 - 50,000 m²)",
-        'very_large_fields_label': "Kutak száma nagyon nagy mezők esetén (> 50,000 m²)",
-        'generate_wells_button': "Kutak generálása",
-        'generated_wells_saved': "A generált kutak mentve a következő helyre: {}",
-        'map_saved': "A térkép elkészült és elmentve a következő helyre: {}",
-        'well_locations_title': "Kútelhelyezések a mezőkben",
-
-        # Reduce Wells Page Texts
-        'reduce_wells_title': "Generált kutak csökkentése",
-        'reduce_wells_description': """
-        **Cél**: Ez az oldal minimális távolsági kritériumok alapján szűri a generált kutakat, hogy megakadályozza a szoros halmozódást.
-        Eltávolítja azokat a kutakat, amelyek túl közel vannak más generált kutakhoz vagy egy meghatározott távolságon belül esnek valódi kutakhoz.
-        """,
-        'min_distance_generated_label': "Minimális távolság a generált kutak között (méterben)",
-        'min_distance_real_label': "Minimális távolság a valódi kutaktól (méterben)",
-        'run_well_reduction_button': "Kútcsökkentés futtatása",
-        'filtered_wells_saved': "Szűrt kutak mentve a következő helyre: {}",
-        'filtered_wells_map_saved': "A szűrt kutak térképe mentve a következő helyre: {}",
-        'histogram_saved': "A szűrt kutak távolsági hisztogramja mentve a következő helyre: {}",
-        'well_locations_with_filters': "Kútelhelyezések távolsági szűrőkkel",
-        'easting_label': "Keleti (méter)",
-        'northing_label': "Északi (méter)",
-        'histogram_title': "Párosított kúttávolságok hisztogramja (szűrt)",
-        'histogram_x_label': "Távolság (méter)",
-        'histogram_y_label': "Gyakoriság",
-
         # Final Map Page Texts
         'final_map_title': "A valódi és generált kutak végső térképe",
         'final_map_description': """
@@ -212,5 +108,6 @@ translations = {
         'map_saved_message': "Az interaktív térkép HTML-ként mentve a következő helyre: {}",
         'download_map_button': "Térkép letöltése HTML formátumban",
         'download_generated_wells_button': "Generált kutak EOV koordinátáinak letöltése",
+        'error_message': "Hiba történt: {}",
     }
 }
