@@ -6,7 +6,7 @@ import folium
 from folium.plugins import MarkerCluster
 import os
 
-def final_map_page():
+def final_map_page(_):
     st.title("Final Map of Real and Generated Wells")
 
     # Define input paths
