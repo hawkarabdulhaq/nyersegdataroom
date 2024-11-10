@@ -4,8 +4,8 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import os
 
-def shape_cleaning_page(_):
-    st.title(_("shape_cleaning_title"))
+def shape_cleaning_page():
+    st.title("Shape Cleaning - Clean and Merge Shapefiles")
 
     # Define paths
     shapefile_path = 'input/irrigated/Irrigated fields.shp'
@@ -13,15 +13,18 @@ def shape_cleaning_page(_):
     output_shapefile_path = os.path.join(output_directory, 'Irrigated_fields_cleaned.shp')
 
     # Description of the script
-    st.markdown(_("shape_cleaning_description"))
+    st.markdown("""
+    **Objective**: This page runs the cleanshp.py script, which cleans and merges shapefile data by buffering and merging close polygons. 
+    The process is useful for consolidating fields that are near each other, simplifying visualization and analysis.
+    """)
 
     # Buffer distance input
-    buffer_distance = st.slider(_("buffer_distance_label"), min_value=0, max_value=100, value=50, step=5)
-    st.write(_("buffer_distance_set").format(buffer_distance))
+    buffer_distance = st.slider("Select Buffer Distance (meters)", min_value=0, max_value=100, value=50, step=5)
+    st.write(f"Buffer distance set to: {buffer_distance} meters")
 
     # Run the clean and merge process
-    if st.button(_("run_clean_button")):
-        with st.spinner(_("processing_message")):
+    if st.button("Run CleanSHP"):
+        with st.spinner("Processing... Please wait."):
             try:
                 # Load the shapefile
                 fields_gdf = gpd.read_file(shapefile_path)
@@ -40,25 +43,25 @@ def shape_cleaning_page(_):
                 # Save the merged fields as a new shapefile
                 os.makedirs(output_directory, exist_ok=True)
                 merged_gdf.to_file(output_shapefile_path)
-                st.success(_("success_message").format(output_shapefile_path))
+                st.success(f"Merged shapefile saved to {output_shapefile_path}")
 
                 # Plotting the before and after side by side
                 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 10))
                 
                 # Before plot
                 fields_gdf.plot(ax=ax1, color='lightgrey', edgecolor='black')
-                ax1.set_title(_("original_fields"))
-                ax1.set_xlabel(_("longitude_label"))
-                ax1.set_ylabel(_("latitude_label"))
+                ax1.set_title("Original Fields")
+                ax1.set_xlabel("Longitude")
+                ax1.set_ylabel("Latitude")
                 
                 # After plot
                 merged_gdf.plot(ax=ax2, color='lightblue', edgecolor='black')
-                ax2.set_title(_("merged_fields").format(buffer_distance))
-                ax2.set_xlabel(_("longitude_label"))
-                ax2.set_ylabel(_("latitude_label"))
+                ax2.set_title(f"Merged Fields with {buffer_distance} m Buffer")
+                ax2.set_xlabel("Longitude")
+                ax2.set_ylabel("Latitude")
                 
                 # Show the plots in Streamlit
                 st.pyplot(fig)
             
             except Exception as e:
-                st.error(_("error_message").format(e))
+                st.error(f"An error occurred: {e}")
