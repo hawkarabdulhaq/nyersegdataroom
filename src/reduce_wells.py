@@ -8,9 +8,11 @@ import os
 from scipy.spatial import cKDTree
 from scipy.spatial.distance import pdist
 import numpy as np
+from translations.reduce_wells import translations as reduce_wells_translations
 
 def reduce_wells_page(_):
-    st.title("Reduce Generated Wells")
+    # Page title
+    st.title(_("reduce_wells_title"))
 
     # Define input and output paths
     generated_wells_path = 'output/generated_wells_eov.txt'
@@ -20,17 +22,14 @@ def reduce_wells_page(_):
     output_histogram_path = 'output/filtered_well_distances_histogram.png'
 
     # Description
-    st.markdown("""
-    **Objective**: This page filters generated wells based on minimum distance criteria to prevent close clustering. 
-    It removes wells that are either too close to other generated wells or within a specified distance from real wells.
-    """)
+    st.markdown(_("reduce_wells_description"))
 
     # User inputs for distance cutoffs
-    min_distance_generated = st.slider("Minimum Distance Between Generated Wells (meters)", min_value=0, max_value=1000, value=500, step=10)
-    min_distance_real = st.slider("Minimum Distance from Real Wells (meters)", min_value=0, max_value=1000, value=500, step=10)
+    min_distance_generated = st.slider(_("min_distance_generated_label"), min_value=0, max_value=1000, value=500, step=10)
+    min_distance_real = st.slider(_("min_distance_real_label"), min_value=0, max_value=1000, value=500, step=10)
 
     # Run the well reduction script when button is clicked
-    if st.button("Run Well Reduction"):
+    if st.button(_("run_well_reduction_button")):
         try:
             # Load the generated wells
             generated_wells = pd.read_csv(generated_wells_path, sep='\s+', header=None, names=['X', 'Y'])
@@ -79,22 +78,22 @@ def reduce_wells_page(_):
 
             # Save the filtered wells to a new text file
             remaining_wells_gdf[['X', 'Y']].to_csv(output_filtered_wells_path, sep=' ', index=False, header=False)
-            st.success(f"Filtered wells saved to {output_filtered_wells_path}")
+            st.success(_("filtered_wells_saved").format(output_filtered_wells_path))
 
             # Plot the remaining and removed wells on a map
             fig, ax = plt.subplots(figsize=(10, 10))
-            remaining_wells_gdf.plot(ax=ax, color='green', marker='o', markersize=30, label='Remaining Wells')
-            removed_wells_gdf.plot(ax=ax, color='red', marker='x', markersize=30, label='Removed Wells')
-            real_wells_gdf.plot(ax=ax, color='blue', marker='^', markersize=50, label='Real Wells')
-            plt.title('Well Locations with Distance Filters Applied')
-            plt.xlabel('Easting (meters)')
-            plt.ylabel('Northing (meters)')
+            remaining_wells_gdf.plot(ax=ax, color='green', marker='o', markersize=30, label=_("remaining_wells_label"))
+            removed_wells_gdf.plot(ax=ax, color='red', marker='x', markersize=30, label=_("removed_wells_label"))
+            real_wells_gdf.plot(ax=ax, color='blue', marker='^', markersize=50, label=_("real_wells_label"))
+            plt.title(_("well_locations_with_filters"))
+            plt.xlabel(_("easting_label"))
+            plt.ylabel(_("northing_label"))
             plt.legend()
             st.pyplot(fig)
 
             # Save the map
             plt.savefig(output_map_path, dpi=300)
-            st.success(f"Filtered wells map saved to {output_map_path}")
+            st.success(_("filtered_wells_map_saved").format(output_map_path))
 
             # Calculate pairwise distances for remaining wells
             remaining_coordinates = np.array(list(zip(remaining_wells_gdf.geometry.x, remaining_wells_gdf.geometry.y)))
@@ -103,14 +102,18 @@ def reduce_wells_page(_):
             # Plot histogram of the distances after filtering
             plt.figure(figsize=(10, 6))
             plt.hist(remaining_distances, bins=30, edgecolor='black')
-            plt.title('Histogram of Pairwise Well Distances (Filtered)')
-            plt.xlabel('Distance (meters)')
-            plt.ylabel('Frequency')
+            plt.title(_("histogram_title"))
+            plt.xlabel(_("histogram_x_label"))
+            plt.ylabel(_("histogram_y_label"))
             st.pyplot(plt)
 
             # Save the histogram
             plt.savefig(output_histogram_path, dpi=300)
-            st.success(f"Filtered well distances histogram saved to {output_histogram_path}")
+            st.success(_("histogram_saved").format(output_histogram_path))
 
         except Exception as e:
-            st.error(f"An error occurred: {e}")
+            st.error(_("error_message").format(e))
+
+# Helper function for page translation
+def _(text_key):
+    return reduce_wells_translations[st.session_state.language].get(text_key, text_key)
