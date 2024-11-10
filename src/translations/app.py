@@ -1,4 +1,4 @@
-common_translations = {
+translations = {
     'en': {
         'page_title': "Nyerseg Dataroom",
         'welcome_message': """
@@ -16,6 +16,10 @@ common_translations = {
         'generate_wells': "Generate Wells",
         'clean_wells': "Clean Wells",
         'download': "Download",
+        'how_this_app_works': "How This App Works",
+        'app_instructions': """
+        This app follows a sequential workflow to prepare and visualize well data. Each page offers a specific function, allowing you to process and interact with the data in a logical order.
+        """
     },
     'hu': {
         'page_title': "Nyerseg Adattár",
@@ -34,5 +38,6 @@ common_translations = {
         'generate_wells': "Kutak generálása",
         'clean_wells': "Kutak tisztítása",
         'download': "Letöltés",
-    }
-}
+        'how_this_app_works': "Hogyan működik ez az alkalmazás",
+        'app_instructions': """
+        Ez az alkalmazás egy szekvenciális munkafolyamatot követ a kútadatok előkészítéséhez és megjelenítéséhez. Minden oldal egy s
