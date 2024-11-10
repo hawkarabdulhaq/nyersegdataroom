@@ -3,6 +3,7 @@ import streamlit as st
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import os
+from translations.shape_cleaning import translations as shape_cleaning_translations
 
 def shape_cleaning_page(_):
     # Page title
@@ -63,3 +64,7 @@ def shape_cleaning_page(_):
             
             except Exception as e:
                 st.error(_("error_message").format(e))
+
+# Helper function for page translation
+def _(text_key):
+    return shape_cleaning_translations[st.session_state.language].get(text_key, text_key)
