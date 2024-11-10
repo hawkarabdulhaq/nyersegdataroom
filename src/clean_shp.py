@@ -4,7 +4,7 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import os
 
-def shape_cleaning_page():
+def shape_cleaning_page(_):
     st.title("Shape Cleaning - Clean and Merge Shapefiles")
 
     # Define paths
