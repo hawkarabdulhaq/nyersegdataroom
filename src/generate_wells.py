@@ -1,6 +1,6 @@
 # src/generate_wells.py
 
-def generate_wells_page():
+def generate_wells_page(_):
     import streamlit as st
     import geopandas as gpd
     import matplotlib.pyplot as plt
