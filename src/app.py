@@ -9,6 +9,10 @@ from src.reduce_wells import reduce_wells_page  # Import the reduce wells functi
 from src.final_map import final_map_page  # Import the final map function
 from translation import translations  # Import translations
 
+# Initialize session state for language if it doesn't exist
+if "language" not in st.session_state:
+    st.session_state.language = 'en'  # Default to English
+
 # Helper function for translation
 def _(text_key):
     return translations[st.session_state.language].get(text_key, text_key)
@@ -16,20 +20,15 @@ def _(text_key):
 # Set page configuration
 st.set_page_config(page_title=_("page_title"), layout="wide")
 
-# Initialize session state for language if it doesn't exist
-if "language" not in st.session_state:
-    st.session_state.language = 'en'  # Default to English
-
 # Language selection in the sidebar
 with st.sidebar:
-    st.selectbox(
+    language = st.selectbox(
         "Language / Nyelv",
         options=["English", "Magyar"],
-        index=0 if st.session_state.language == 'en' else 1,
-        on_change=lambda: st.session_state.update(
-            language='en' if st.session_state.get('language') == 'English' else 'hu'
-        )
+        index=0 if st.session_state.language == 'en' else 1
     )
+    # Update language in session state based on selection
+    st.session_state.language = 'en' if language == "English" else 'hu'
 
 # Title and Welcome Message
 st.title(_("page_title"))
