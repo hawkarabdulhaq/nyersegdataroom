@@ -17,7 +17,7 @@ def reduce_wells_page(_):
     # Define input and output paths
     generated_wells_path = 'output/generated_wells_eov.txt'
     real_wells_path = 'input/real_wells/realwellss.txt'
-    boundary_path = 'input/boundary/border.shp'
+    boundary_path = 'input/boundary/boundary.shp'
     output_filtered_wells_path = 'output/filtered_generated_wells_eov.txt'
     output_map_path = 'output/filtered_generated_wells_map.png'
     output_histogram_path = 'output/filtered_well_distances_histogram.png'
@@ -28,7 +28,7 @@ def reduce_wells_page(_):
     # User inputs for distance cutoffs
     min_distance_generated = st.slider(_("min_distance_generated_label"), min_value=0, max_value=1000, value=500, step=10)
     min_distance_real = st.slider(_("min_distance_real_label"), min_value=0, max_value=1000, value=500, step=10)
-    min_distance_boundary = st.slider(_("min_distance_boundary_label"), min_value=0, max_value=5000, value=3000, step=100)
+    min_distance_boundary = st.slider(_("Border Threshold"), min_value=0, max_value=5000, value=3000, step=100)
 
     # Run the well reduction script when button is clicked
     if st.button(_("run_well_reduction_button")):
