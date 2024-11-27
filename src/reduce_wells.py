@@ -28,7 +28,7 @@ def reduce_wells_page(_):
     # User inputs for distance cutoffs
     min_distance_generated = st.slider(_("min_distance_generated_label"), min_value=0, max_value=1000, value=500, step=10)
     min_distance_real = st.slider(_("min_distance_real_label"), min_value=0, max_value=1000, value=500, step=10)
-    min_distance_boundary = 3000  # Fixed distance to boundary as specified
+    min_distance_boundary = st.slider(_("min_distance_boundary_label"), min_value=0, max_value=5000, value=3000, step=100)
 
     # Run the well reduction script when button is clicked
     if st.button(_("run_well_reduction_button")):
